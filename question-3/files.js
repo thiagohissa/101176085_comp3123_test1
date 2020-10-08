@@ -4,11 +4,15 @@
 
 const fs = require('fs');
 
-function getFiles(){
+function checkFiles(){
+    if (!fs.existsSync('./Logs')){
+        fs.mkdirSync('./Logs');
+    }
     return fs.readdirSync('./Logs');
 }
 
 function createFiles(){
+
     for(let i = 0; i<10; i++){
         let filename = "log" + i + ".txt";
         fs.open(`./Logs/${filename}`, 'w', function (err, file) {
@@ -24,15 +28,15 @@ function createFiles(){
 }
 
 function deleteFiles(files){
-    for(let i = 0; i<files.length; i++){
-        fs.unlink(`./Logs/${files[i]}`, function (err) {
-            if (err) throw err;
-            console.log(`deleting file... ${files[i]}`);
-        });
-    }
+    fs.rmdir('./Logs', { recursive: true }, (err) => {
+        if (err) {
+            throw err;
+        }
+        files.forEach((file) =>{ console.log(`deleted file: ${file}`); })
+    });
 }
 
-let files = getFiles();
+let files = checkFiles();
 
 if(files.length > 0){
     deleteFiles(files);
