@@ -1,3 +1,7 @@
+// Lab Test 1
+// Thiago Maciel Hissa
+// 101176085
+
 function resolvedPromise(){
     return new Promise(((resolve) => {
         setTimeout(function(){
